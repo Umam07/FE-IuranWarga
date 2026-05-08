@@ -329,31 +329,37 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* STATS */}
-      <section className="max-w-7xl mx-auto px-6 py-16" id="layanan">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { label: 'WARGA AKTIF',   value: 247,  suffix: ' KK',  icon: 'groups',          color: 'bg-nb-blue' },
-            { label: 'TINGKAT IURAN', value: 84,   suffix: '%',    icon: 'trending_up',     color: 'bg-nb-green' },
-            { label: 'SALDO KAS',     value: 58.3, suffix: ' JT',   icon: 'account_balance', color: 'bg-nb-purple', prefix: 'RP ' },
-            { label: 'AGENDA AKTIF',  value: 5,    suffix: ' ITEM', icon: 'event',          color: 'bg-nb-yellow' },
-          ].map((s, i) => (
-            <motion.div key={i} variants={itemVariants} initial="hidden" whileInView="show" viewport={{ once: true }}
-              className="bg-white border-4 border-black p-6 flex flex-col gap-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all"
-            >
-              <div className={`w-14 h-14 border-4 border-black ${s.color} flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
-                <span className="material-symbols-outlined text-black text-[28px] font-bold">{s.icon}</span>
-              </div>
-              <div>
-                <div className="text-4xl font-[900] text-black italic" style={{ fontFamily: 'Lexend, sans-serif' }}>
-                  <AnimatedCounter target={s.value} prefix={s.prefix ?? ''} suffix={s.suffix} />
-                </div>
-                <div className="text-sm font-black text-black/60 mt-1 uppercase tracking-widest">{s.label}</div>
-              </div>
-            </motion.div>
-          ))}
+     {/* STATS */}
+<section className="max-w-7xl mx-auto px-6 py-16" id="layanan">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+    {[
+      { label: 'WARGA AKTIF',   value: 247,  suffix: ' KK',  icon: 'groups',          color: 'bg-nb-blue' },
+      { label: 'TINGKAT IURAN', value: 84,   suffix: '%',    icon: 'trending_up',     color: 'bg-nb-green' },
+      { label: 'SALDO KAS',     value: 58.3, suffix: ' JT',  icon: 'account_balance', color: 'bg-nb-purple', prefix: 'RP ' },
+      { label: 'AGENDA AKTIF',  value: 5,    suffix: ' ITEM', icon: 'event',          color: 'bg-nb-yellow' },
+    ].map((s, i) => (
+      <motion.div 
+        key={i} 
+        variants={itemVariants} 
+        initial="hidden" 
+        whileInView="show" 
+        viewport={{ once: true, amount: 0.2 }}
+        // PERUBAHAN DI SINI: Ganti transition-all dengan transition-shadow, tambahkan transform-gpu
+        className="bg-white border-4 border-black p-6 flex flex-col gap-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-shadow duration-300 transform-gpu will-change-transform"
+      >
+        <div className={`w-14 h-14 border-4 border-black ${s.color} flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
+          <span className="material-symbols-outlined text-black text-[28px] font-bold">{s.icon}</span>
         </div>
-      </section>
+        <div>
+          <div className="text-4xl font-[900] text-black italic" style={{ fontFamily: 'Lexend, sans-serif' }}>
+            <AnimatedCounter target={s.value} prefix={s.prefix ?? ''} suffix={s.suffix} />
+          </div>
+          <div className="text-sm font-black text-black/60 mt-1 uppercase tracking-widest">{s.label}</div>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+</section>
 
       {/* MAIN GRID */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
