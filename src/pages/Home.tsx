@@ -68,6 +68,26 @@ const Home = () => {
   const [selectedNotice, setSelectedNotice] = useState<any | null>(null);
   const [activeTab, setActiveTab] = useState<'semua' | 'pengumuman' | 'jadwal'>('semua');
   
+  // Agenda Attendance State
+  const [hasConfirmed, setHasConfirmed] = useState(() => {
+    return localStorage.getItem('agenda_confirmed') === 'true';
+  });
+  const [attendeeCount, setAttendeeCount] = useState(128);
+
+  useEffect(() => {
+    if (hasConfirmed) {
+      setAttendeeCount(129); // Mock increment if already confirmed
+      localStorage.setItem('agenda_confirmed', 'true');
+    }
+  }, [hasConfirmed]);
+
+  const handleConfirmAttendance = () => {
+    if (!hasConfirmed) {
+      setAttendeeCount(prev => prev + 1);
+      setHasConfirmed(true);
+    }
+  };
+  
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
@@ -377,13 +397,66 @@ const Home = () => {
           </div>
 
           {/* Agenda Card */}
-          <div className="md:col-span-5 border-4 border-black p-8 bg-nb-orange text-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+          <div className="md:col-span-5 border-4 border-black p-8 bg-nb-orange text-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/20 rounded-full blur-3xl" />
+            
             <span className="bg-white text-black border-2 border-black px-4 py-2 font-black text-xs uppercase mb-8 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">AGENDA MENDATANG</span>
             <h3 className="text-4xl font-[900] italic mb-6 leading-tight uppercase" style={{ fontFamily: 'Lexend, sans-serif' }}>KERJA BAKTI AKBAR & PENGHIJAUAN</h3>
-            <p className="text-xl font-black mb-10 leading-tight">WAKTU: MINGGU, 24 OKT<br />LOKASI: TAMAN PUSAT</p>
-            <button className="w-full bg-black border-4 border-white py-6 font-black text-xl uppercase hover:bg-nb-blue transition-colors shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-              KONFIRMASI HADIR
-            </button>
+            <p className="text-xl font-black mb-8 leading-tight">WAKTU: MINGGU, 24 OKT<br />LOKASI: TAMAN PUSAT</p>
+            
+            {/* Attendance Counter */}
+            <div className="bg-black/20 border-2 border-white/30 p-4 mb-8 backdrop-blur-sm">
+              <div className="flex items-center gap-4">
+                <div className="flex -space-x-3">
+                  {['A', 'B', 'C', 'D'].map((initial, i) => (
+                    <div key={i} className={`w-10 h-10 border-2 border-black flex items-center justify-center font-black text-sm
+                      ${i === 0 ? 'bg-nb-yellow' : i === 1 ? 'bg-nb-blue' : i === 2 ? 'bg-nb-pink' : 'bg-nb-green'} text-black`}>
+                      {initial}
+                    </div>
+                  ))}
+                  <div className="w-10 h-10 border-2 border-black bg-white flex items-center justify-center font-black text-black text-[10px]">
+                    +{attendeeCount - 4}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-[900] italic leading-none">{attendeeCount}</div>
+                  <div className="text-[10px] font-black uppercase tracking-wider opacity-80">WARGA SIAP HADIR</div>
+                </div>
+              </div>
+            </div>
+
+            <motion.button 
+              whileHover={{ scale: hasConfirmed ? 1 : 1.02, x: hasConfirmed ? 0 : -2, y: hasConfirmed ? 0 : -2 }}
+              whileTap={{ scale: hasConfirmed ? 1 : 0.98, x: hasConfirmed ? 0 : 2, y: hasConfirmed ? 0 : 2 }}
+              onClick={handleConfirmAttendance}
+              disabled={hasConfirmed}
+              className={`w-full py-6 font-black text-xl uppercase transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-3
+                ${hasConfirmed 
+                  ? 'bg-nb-green text-black border-4 border-black cursor-default' 
+                  : 'bg-black text-white border-4 border-white hover:bg-nb-blue'}`}
+            >
+              {hasConfirmed ? (
+                <>
+                  <span className="material-symbols-outlined font-bold">check_circle</span>
+                  TERKONFIRMASI
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined font-bold">how_to_reg</span>
+                  KONFIRMASI HADIR
+                </>
+              )}
+            </motion.button>
+
+            {hasConfirmed && (
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mt-4 font-black text-xs uppercase italic bg-black/40 py-2 border border-white/20"
+              >
+                Terima kasih! Sampai jumpa di lokasi.
+              </motion.p>
+            )}
           </div>
         </div>
       </section>
