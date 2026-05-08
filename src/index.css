@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nb-black: #000000;
+  --nb-white: #ffffff;
+  --nb-cream: #fef6e4;
+  --nb-yellow: #ffdf6b;
+  --nb-orange: #ff5c00;
+  --nb-purple: #7300ff;
+  --nb-blue: #00c1ff;
+  --nb-pink: #ff00e5;
+  --nb-green: #00ff85;
+
+  color: #000000;
+  background: var(--nb-cream);
+  font-family: 'Inter', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--nb-cream);
+  color: #000000;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lexend', 'Manrope', sans-serif;
+  font-weight: 800;
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
+}
+
+.font-lexend {
+  font-family: 'Lexend', sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--nb-yellow);
+  color: #000000;
+}
+
+@layer components {
+  .page-fade {
+    animation: pageFade 400ms ease-out both;
+  }
+
+  .nb-grid {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .nb-panel {
+    @apply bg-white border-3 border-black shadow-nb;
+  }
+
+  .section-shell {
+    @apply relative overflow-hidden bg-white border-4 border-black p-6 shadow-nb-lg md:p-8;
+  }
+
+  .card-shell {
+    @apply bg-white border-3 border-black p-6 shadow-nb transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-nb-lg active:translate-x-0 active:translate-y-0 active:shadow-nb;
+  }
+
+  .label-chip {
+    @apply inline-flex items-center border-2 border-black px-3 py-1 text-[11px] font-black uppercase tracking-[0.1em] shadow-nb-hover;
+  }
+
+  .primary-button {
+    @apply inline-flex items-center justify-center border-3 border-black bg-nb-orange px-6 py-3 text-sm font-black text-white shadow-nb transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-nb-lg active:translate-x-0 active:translate-y-0 active:shadow-nb;
+  }
+
+  .secondary-button {
+    @apply inline-flex items-center justify-center border-3 border-black bg-nb-yellow px-6 py-3 text-sm font-black text-black shadow-nb transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-nb-lg active:translate-x-0 active:translate-y-0 active:shadow-nb;
+  }
+
+  .field-shell {
+    @apply border-3 border-black bg-white px-4 py-3 text-sm font-bold text-black outline-none transition-all duration-200 placeholder:text-gray-500 focus:bg-nb-cream focus:shadow-nb-hover;
+  }
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--nb-cream);
+  border-left: 2px solid black;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: black;
+  border: 2px solid black;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--nb-orange);
+}
+
